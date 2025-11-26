@@ -21,7 +21,7 @@
 19. Troubleshooting & debugging
 20. Handy combos & best practices
 
-1. BASICS & ENVIRONMENT
+## 1. BASICS & ENVIRONMENT
 
 * pwd — print working directory
 
