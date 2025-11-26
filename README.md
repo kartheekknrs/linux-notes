@@ -51,93 +51,93 @@
 
 * arch or uname -m — CPU architecture
 
-2. FILESYSTEM NAV & FILE OPERATIONS
+## 2. FILESYSTEM NAV & FILE OPERATIONS
 
-ls — list files
+* ls — list files
 
-ls -l long listing
+  * ls -l long listing
+  
+  * ls -la show hidden files
+  
+  * ls -lh human-readable sizes
+  
+  * ls --color=auto colored output
 
-ls -la show hidden files
+* cd /path/to/dir — change directory
 
-ls -lh human-readable sizes
+* mkdir dir — create directory
 
-ls --color=auto colored output
+  * mkdir -p a/b/c create parents as needed
 
-cd /path/to/dir — change directory
+* rmdir dir — remove empty directory
 
-mkdir dir — create directory
+* cp src dest — copy files
 
-mkdir -p a/b/c create parents as needed
+  * cp -r dir1 dir2 recursive copy
+  
+  * cp -a preserve attributes (archival)
 
-rmdir dir — remove empty directory
+*  mv src dest — move or rename
 
-cp src dest — copy files
+* rm file — delete file
 
-cp -r dir1 dir2 recursive copy
+  * rm -r dir recursive
+  
+  * rm -f force
+  
+  * rm -rf dangerous: force recursive
 
-cp -a preserve attributes (archival)
+* ln -s target linkname — create symbolic link
 
-mv src dest — move or rename
+* stat file — detailed file metadata
 
-rm file — delete file
+* file filename — guesses file type
 
-rm -r dir recursive
+* touch file — create empty file or update timestamps
 
-rm -f force
+## 3. FILE VIEWING & PROCESSING
 
-rm -rf dangerous: force recursive
+* cat file — dump file to stdout
 
-ln -s target linkname — create symbolic link
+* tac file — reverse file
 
-stat file — detailed file metadata
+* nl file — number lines
 
-file filename — guesses file type
+* less file — pager (use q to exit)
 
-touch file — create empty file or update timestamps
+  * less +F file follow mode (like tail -f)
 
-3. FILE VIEWING & PROCESSING
+* more file older pager
 
-cat file — dump file to stdout
+* head -n 10 file — first lines
 
-tac file — reverse file
+* tail -n 10 file — last lines
 
-nl file — number lines
+  * tail -f file — follow appended content
 
-less file — pager (use q to exit)
+* cut -d',' -f1 — cut fields by delimiter
 
-less +F file follow mode (like tail -f)
+* sort — sort lines
 
-more file older pager
+  * sort -n numeric
+  
+  * sort -r reverse
 
-head -n 10 file — first lines
+* uniq — remove adjacent duplicates
 
-tail -n 10 file — last lines
+  * sort | uniq -c count unique lines
 
-tail -f file — follow appended content
+* tr 'a-z' 'A-Z' — translate characters
 
-cut -d',' -f1 — cut fields by delimiter
+* wc — word/line/byte count
 
-sort — sort lines
+  * wc -l count lines
 
-sort -n numeric
+* tee file — write to stdout and file
 
-sort -r reverse
+* split -b 10M bigfile — split into 10MB chunks
 
-uniq — remove adjacent duplicates
-
-sort | uniq -c count unique lines
-
-tr 'a-z' 'A-Z' — translate characters
-
-wc — word/line/byte count
-
-wc -l count lines
-
-tee file — write to stdout and file
-
-split -b 10M bigfile — split into 10MB chunks
-
-paste file1 file2 — merge columns
+* paste file1 file2 — merge columns
 
 4. PERMISSIONS & OWNERSHIP
 
