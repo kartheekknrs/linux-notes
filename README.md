@@ -167,9 +167,9 @@
 
 * **vi filename** or **vim filename** — modal editor
 
- * common: i insert, Esc, :w save, :q quit, :wq save+quit, :qa! quit all
+  * common: i insert, Esc, :w save, :q quit, :wq save+quit, :qa! quit all
  
- * visual mode, yank (y), paste (p), delete (d)
+  * visual mode, yank (y), paste (p), delete (d)
 
 * nano file — user-friendly editor (Ctrl+O save, Ctrl+X exit)
 
@@ -197,13 +197,13 @@
  
  * grep -i ignore case
  
- * grep -E extended regex
- 
- * grep -P perl regex (if supported)
- 
- * zgrep for gzipped files
-
-* egrep (equiv. grep -E)
+   * grep -E extended regex
+   
+   * grep -P perl regex (if supported)
+   
+   * zgrep for gzipped files
+  
+ * egrep (equiv. grep -E)
 
 ## 7. COMPRESSION & ARCHIVING
 
@@ -315,13 +315,13 @@ Other
 
 * Job control in bash:
 
- * **command &** run in background
- 
- * **jobs** list jobs
- 
- * **fg %1** bring job 1 foreground
- 
- * **bg %1** resume job in background
+   * **command &** run in background
+   
+   * **jobs** list jobs
+   
+   * **fg %1** bring job 1 foreground
+   
+   * **bg %1** resume job in background
  
 ## 11. SYSTEMD & SERVICES
 
@@ -353,7 +353,7 @@ Other
 
 * Timers
 
- * systemctl list-timers — view systemd timers
+   * systemctl list-timers — view systemd timers
 
 ## 12. NETWORKING
 
@@ -373,9 +373,9 @@ Other
 
 * nmcli — NetworkManager CLI
 
- * nmcli device status
-
- * nmcli connection show
+   * nmcli device status
+  
+   * nmcli connection show
 
 * ping host — test connectivity
 
@@ -469,23 +469,23 @@ Other
 
 * /var/log/ — system logs
 
-  * /var/log/syslog or /var/log/messages — general system log
-
-  * /var/log/auth.log — authentication (Debian)
+    * /var/log/syslog or /var/log/messages — general system log
   
-  * /var/log/secure — authentication (RHEL)
-  
-  * /var/log/kern.log — kernel messages
+    * /var/log/auth.log — authentication (Debian)
+    
+    * /var/log/secure — authentication (RHEL)
+    
+    * /var/log/kern.log — kernel messages
 
 * journalctl — systemd journal viewer
 
- * journalctl -u sshd.service — logs for unit
- 
- * journalctl -b — logs from current boot
- 
- * journalctl -f — follow
- 
- * journalctl --since "2025-11-01" --until "2025-11-10"
+   * journalctl -u sshd.service — logs for unit
+   
+   * journalctl -b — logs from current boot
+   
+   * journalctl -f — follow
+   
+   * journalctl --since "2025-11-01" --until "2025-11-10"
 
 ## 15. BOOT & KERNEL
 
