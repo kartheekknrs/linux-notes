@@ -55,37 +55,37 @@
 
 * ls — list files
 
-  * ls -l long listing
+  * ls -l  — long listing
   
-  * ls -la show hidden files
+  * ls -la — show hidden files
   
-  * ls -lh human-readable sizes
+  * ls -lh — human-readable sizes
   
-  * ls --color=auto colored output
+  * ls --color=auto  — colored output
 
 * cd /path/to/dir — change directory
 
 * mkdir dir — create directory
 
-  * mkdir -p a/b/c create parents as needed
+  * mkdir -p a/b/c — create parents as needed
 
 * rmdir dir — remove empty directory
 
 * cp src dest — copy files
 
-  * cp -r dir1 dir2 recursive copy
+  * cp -r dir1 dir2 — recursive copy
   
-  * cp -a preserve attributes (archival)
+  * cp -a — preserve attributes (archival)
 
 *  mv src dest — move or rename
 
 * rm file — delete file
 
-  * rm -r dir recursive
+  * rm -r dir  — recursive
   
-  * rm -f force
+  * rm -f  — force
   
-  * rm -rf dangerous: force recursive
+  * rm -rf  — dangerous: force recursive
 
 * ln -s target linkname — create symbolic link
 
@@ -105,9 +105,9 @@
 
 * less file — pager (use q to exit)
 
-  * less +F file follow mode (like tail -f)
+  * less +F file — follow mode (like tail -f)
 
-* more file older pager
+* more file  — older pager
 
 * head -n 10 file — first lines
 
@@ -119,19 +119,19 @@
 
 * sort — sort lines
 
-  * sort -n numeric
+  * sort -n — numeric
   
-  * sort -r reverse
+  * sort -r — reverse
 
 * uniq — remove adjacent duplicates
 
-  * sort | uniq -c count unique lines
+  * sort | uniq -c — count unique lines
 
 * tr 'a-z' 'A-Z' — translate characters
 
 * wc — word/line/byte count
 
-  * wc -l count lines
+  * wc -l  — count lines
 
 * tee file — write to stdout and file
 
@@ -139,372 +139,520 @@
 
 * paste file1 file2 — merge columns
 
-4. PERMISSIONS & OWNERSHIP
+## 4. PERMISSIONS & OWNERSHIP
 
-ls -l shows permissions (rwx)
+* ls -l — shows permissions (rwx)
 
-chmod — change permissions
+* chmod — change permissions
 
-symbolic: chmod u+rwx,g+rx,o-r file
+  * symbolic: **chmod u+rwx,g+rx,o-r** file
+  
+  * numeric: **chmod 755 file** (u=rwx (7), g=rx (5), o=rx (5))
+  
+  * special bits: setuid (4___), setgid (2_), sticky bit (_1)
+  
+    * e.g. **chmod 4755 /path/to/binary** (setuid)
 
-numeric: chmod 755 file (u=rwx (7), g=rx (5), o=rx (5))
+* chown user:group file — change owner and group
 
-special bits: setuid (4___), setgid (2_), sticky bit (_1)
+* chgrp group file — change group only
 
-e.g. chmod 4755 /path/to/binary (setuid)
+* umask — default permission mask for new files
 
-chown user:group file — change owner and group
+  * umask 022 means new files 755/644 style
 
-chgrp group file — change group only
+* getfacl file / setfacl — get/set POSIX ACLs for fine-grained perms
 
-umask — default permission mask for new files
+## 5. TEXT EDITORS
 
-umask 022 means new files 755/644 style
+* **vi filename** or **vim filename** — modal editor
 
-getfacl file / setfacl — get/set POSIX ACLs for fine-grained perms
+ * common: i insert, Esc, :w save, :q quit, :wq save+quit, :qa! quit all
+ 
+ * visual mode, yank (y), paste (p), delete (d)
 
-5. TEXT EDITORS
+* nano file — user-friendly editor (Ctrl+O save, Ctrl+X exit)
 
-vi filename or vim filename — modal editor
+* emacs file — powerful editor
 
-common: i insert, Esc, :w save, :q quit, :wq save+quit, :qa! quit all
+## 6. SEARCHING — find / grep / locate
 
-visual mode, yank (y), paste (p), delete (d)
+* find /path -name "*.log" — find files by name (case-sensitive)
 
-nano file — user-friendly editor (Ctrl+O save, Ctrl+X exit)
+* find /path -iname "*.Log" — case-insensitive
 
-emacs file — powerful editor
+* find . -type f -mtime -7 — modified within last 7 days
 
-6. SEARCHING — find / grep / locate
+* find . -type f -size +100M — files bigger than 100MB
 
-find /path -name "*.log" — find files by name (case-sensitive)
+* find . -name "*.tmp" -exec rm {} \; — execute command on results
 
-find /path -iname "*.Log" — case-insensitive
+* locate filename — fast DB-backed search (update DB with updatedb)
 
-find . -type f -mtime -7 — modified within last 7 days
+* grep 'pattern' file — search text
 
-find . -type f -size +100M — files bigger than 100MB
+ * grep -R "TODO" . — recursive search
+ 
+ * grep -n show line numbers
+ 
+ * grep -i ignore case
+ 
+ * grep -E extended regex
+ 
+ * grep -P perl regex (if supported)
+ 
+ * zgrep for gzipped files
 
-find . -name "*.tmp" -exec rm {} \; — execute command on results
+* egrep (equiv. grep -E)
 
-locate filename — fast DB-backed search (update DB with updatedb)
+## 7. COMPRESSION & ARCHIVING
 
-grep 'pattern' file — search text
+* tar -cvf archive.tar dir/ — create tar
 
-grep -R "TODO" . — recursive search
+* tar -xvf archive.tar — extract tar
 
-grep -n show line numbers
+* tar -czvf archive.tar.gz dir/ — create gzip tar
 
-grep -i ignore case
+* tar -xzvf archive.tar.gz — extract gzipped tar
 
-grep -E extended regex
+* tar -cjvf archive.tar.bz2 dir/ — bzip2
 
-grep -P perl regex (if supported)
+* tar -xJvf archive.tar.xz — xz
 
-zgrep for gzipped files
+* gzip file -> file.gz; gunzip to extract
 
-egrep (equiv. grep -E)
+* zip -r archive.zip dir/ and unzip archive.zip
 
-7. COMPRESSION & ARCHIVING
+* 7z a archive.7z files if p7zip installed
 
-tar -cvf archive.tar dir/ — create tar
+## 8. PACKAGE MANAGEMENT
 
-tar -xvf archive.tar — extract tar
+# Debian/Ubuntu (apt / dpkg)
 
-tar -czvf archive.tar.gz dir/ — create gzip tar
+* apt update — refresh package lists
 
-tar -xzvf archive.tar.gz — extract gzipped tar
+* apt upgrade — upgrade installed packages
 
-tar -cjvf archive.tar.bz2 dir/ — bzip2
+* apt install pkg — install package
 
-tar -xJvf archive.tar.xz — xz
+* apt remove pkg — remove
 
-gzip file -> file.gz; gunzip to extract
+* apt purge pkg — remove config files too
 
-zip -r archive.zip dir/ and unzip archive.zip
+* dpkg -i package.deb — install .deb file
 
-7z a archive.7z files if p7zip installed
+* dpkg -l | grep pkg — check package
 
-8. PACKAGE MANAGEMENT
+# RHEL/CentOS/Fedora (yum/dnf/rpm)
 
-Debian/Ubuntu (apt / dpkg)
+* yum install pkg or dnf install pkg
 
-apt update — refresh package lists
+* yum update or dnf upgrade
 
-apt upgrade — upgrade installed packages
+* rpm -ivh package.rpm — install rpm
 
-apt install pkg — install package
+* rpm -qa | grep pkg — list installed
 
-apt remove pkg — remove
+* Arch (pacman)
 
-apt purge pkg — remove config files too
+* pacman -Syu — update system
 
-dpkg -i package.deb — install .deb file
-
-dpkg -l | grep pkg — check package
-
-RHEL/CentOS/Fedora (yum/dnf/rpm)
-
-yum install pkg or dnf install pkg
-
-yum update or dnf upgrade
-
-rpm -ivh package.rpm — install rpm
-
-rpm -qa | grep pkg — list installed
-
-Arch (pacman)
-
-pacman -Syu — update system
-
-pacman -S pkg — install
+* pacman -S pkg — install
 
 Other
 
-snap install package (snap)
+* snap install package  —(snap)
 
-flatpak commands
+* flatpak  —commands
 
-9. USERS & GROUPS
+## 9. USERS & GROUPS
 
-useradd username — create user (use -m for home)
+* useradd username — create user (use -m for home)
 
-adduser username — friendlier wrapper (Debian)
+* adduser username — friendlier wrapper (Debian)
 
-userdel username — delete user
+* userdel username — delete user
 
-usermod -aG group user — add user to group
+* usermod -aG group user — add user to group
 
-groups username — show groups
+* groups username — show groups
 
-passwd username — set/change password
+* passwd username — set/change password
 
-chage -l username — view password expiry
+* chage -l username — view password expiry
 
-sudo visudo — safely edit /etc/sudoers
+* sudo visudo — safely edit /etc/sudoers
 
-su - username — switch user (login shell)
+* su - username — switch user (login shell)
 
-10. PROCESSES & JOB CONTROL
+## 10. PROCESSES & JOB CONTROL
 
-ps aux — show all processes
+* ps aux — show all processes
 
-ps -ef — alternate format
+* ps -ef — alternate format
 
-top — dynamic process viewer
+* top — dynamic process viewer
 
-htop — enhanced top (interactive)
+* htop — enhanced top (interactive)
 
-pgrep pattern — find PIDs
+* pgrep pattern — find PIDs
 
-pidof program — PID(s) of program
+* pidof program — PID(s) of program
 
-kill PID — send SIGTERM (15)
+* kill PID — send SIGTERM (15)
 
-kill -9 PID — SIGKILL (9)
+* kill -9 PID — SIGKILL (9)
 
-kill -SIGINT PID — named signal
+* kill -SIGINT PID — named signal
 
-pkill name — kill by name
+* pkill name — kill by name
 
-killall name — kill all processes by name
+* killall name — kill all processes by name
 
-nice -n 10 command — run with lower priority
+* nice -n 10 command — run with lower priority
 
-renice -n 5 -p PID — change priority of running process
+* renice -n 5 -p PID — change priority of running process
 
-Job control in bash:
+* Job control in bash:
 
-command & run in background
+ * **command &** run in background
+ 
+ * **jobs** list jobs
+ 
+ * **fg %1** bring job 1 foreground
+ 
+ * **bg %1** resume job in background
+ 
+## 11. SYSTEMD & SERVICES
 
-jobs list jobs
+* systemctl status — overall status
 
-fg %1 bring job 1 foreground
+* systemctl status <service> — service status
 
-bg %1 resume job in background
+* systemctl start <service>
 
-11. SYSTEMD & SERVICES
+* systemctl stop <service>
 
-systemctl status — overall status
+* systemctl restart <service>
 
-systemctl status <service> — service status
+* systemctl reload <service> — reload config without restart
 
-systemctl start <service>
+* systemctl enable <service> — start at boot
 
-systemctl stop <service>
+* systemctl disable <service>
 
-systemctl restart <service>
+* systemctl is-enabled <service>
 
-systemctl reload <service> — reload config without restart
+* systemctl daemon-reload — after modifying unit files
 
-systemctl enable <service> — start at boot
+* systemctl list-units --type=service — list services
 
-systemctl disable <service>
+* systemctl --failed — show failed units
 
-systemctl is-enabled <service>
+* systemd-analyze blame — show boot time contributions
 
-systemctl daemon-reload — after modifying unit files
+* Timers
 
-systemctl list-units --type=service — list services
+ * systemctl list-timers — view systemd timers
 
-systemctl --failed — show failed units
+## 12. NETWORKING
 
-systemd-analyze blame — show boot time contributions
+* ip addr / ip a — show interfaces & addresses
 
-Timers
+* ip link — show network links
 
-systemctl list-timers — view systemd timers
+* ip route — routing table
 
-12. NETWORKING
+* ip neigh — ARP table
 
-ip addr / ip a — show interfaces & addresses
+* ss -tuln — sockets listening (replacement for netstat)
 
-ip link — show network links
+* netstat -tulpn — network connections (if installed)
 
-ip route — routing table
+* ifconfig — older tool (deprecated)
 
-ip neigh — ARP table
+* nmcli — NetworkManager CLI
 
-ss -tuln — sockets listening (replacement for netstat)
+ * nmcli device status
 
-netstat -tulpn — network connections (if installed)
+ * nmcli connection show
 
-ifconfig — older tool (deprecated)
+* ping host — test connectivity
 
-nmcli — NetworkManager CLI
+* traceroute host — path to host
 
-nmcli device status
+* tracepath host — user-mode traceroute
 
-nmcli connection show
+* dig domain — DNS lookup (from bind-utils)
 
-ping host — test connectivity
+* nslookup domain — DNS lookup (older)
 
-traceroute host — path to host
+* arp -a — ARP entries
 
-tracepath host — user-mode traceroute
+* ethtool eth0 — show NIC settings
 
-dig domain — DNS lookup (from bind-utils)
+* ethtool -s eth0 speed 100 duplex full — change NIC (may require down)
 
-nslookup domain — DNS lookup (older)
+* route — older route tool
 
-arp -a — ARP entries
+# Firewall
 
-ethtool eth0 — show NIC settings
+* iptables -L -n -v — list iptables rules
 
-ethtool -s eth0 speed 100 duplex full — change NIC (may require down)
+* iptables -A INPUT -p tcp --dport 22 -j ACCEPT — add rule
 
-route — older route tool
+* iptables-save / iptables-restore
 
-Firewall
+* nft / nftables — modern replacement
 
-iptables -L -n -v — list iptables rules
+* firewall-cmd --zone=public --add-port=8080/tcp --permanent (firewalld)
 
-iptables -A INPUT -p tcp --dport 22 -j ACCEPT — add rule
+* ufw status / ufw allow 22 (Ubuntu uncomplicated firewall)
 
-iptables-save / iptables-restore
+# SSH
 
-nft / nftables — modern replacement
+* ssh user@host — connect
 
-firewall-cmd --zone=public --add-port=8080/tcp --permanent (firewalld)
+* ssh -p 2222 user@host — custom port
 
-ufw status / ufw allow 22 (Ubuntu uncomplicated firewall)
+* ssh -i /path/key.pem user@host — use key
 
-SSH
+* ssh-keygen -t rsa -b 4096 -C "email@domain" — generate key
 
-ssh user@host — connect
+* ssh-copy-id -i ~/.ssh/id_rsa.pub user@host — copy key to remote
 
-ssh -p 2222 user@host — custom port
+* scp file user@host:/path/ — secure copy
 
-ssh -i /path/key.pem user@host — use key
+* sftp user@host — interactive file transfer
 
-ssh-keygen -t rsa -b 4096 -C "email@domain" — generate key
+* rsync -avz source/ user@host:/dest/ — fast sync (recommended over scp for many files)
 
-ssh-copy-id -i ~/.ssh/id_rsa.pub user@host — copy key to remote
+## 13. DISK, PARTITIONS & FILESYSTEMS
 
-scp file user@host:/path/ — secure copy
+* df -h — disk free space (human)
 
-sftp user@host — interactive file transfer
+* du -sh * — disk usage of dirs/files
 
-rsync -avz source/ user@host:/dest/ — fast sync (recommended over scp for many files)
+* lsblk — list block devices
 
-13. DISK, PARTITIONS & FILESYSTEMS
+* fdisk -l — partition table
 
-df -h — disk free space (human)
+* parted /dev/sda — partition editor (scriptable)
 
-du -sh * — disk usage of dirs/files
+* mkfs.ext4 /dev/sda1 — make ext4 filesystem
 
-lsblk — list block devices
+* mkfs.xfs /dev/sdb1 — make XFS filesystem
 
-fdisk -l — partition table
+* mount /dev/sda1 /mnt — mount
 
-parted /dev/sda — partition editor (scriptable)
+* umount /mnt — unmount (note: umount, not unmount)
 
-mkfs.ext4 /dev/sda1 — make ext4 filesystem
+* /etc/fstab — persistent mounts at boot
 
-mkfs.xfs /dev/sdb1 — make XFS filesystem
+* blkid — show filesystem UUIDs
 
-mount /dev/sda1 /mnt — mount
+* tune2fs -L label /dev/sda1 — label ext[2/3/4]
 
-umount /mnt — unmount (note: umount, not unmount)
+* fsck -f /dev/sda1 — filesystem check/repair (unmounted)
 
-/etc/fstab — persistent mounts at boot
+* resize2fs /dev/sda1 — resize ext filesystem
 
-blkid — show filesystem UUIDs
+* losetup -fP disk.img — setup loop device
 
-tune2fs -L label /dev/sda1 — label ext[2/3/4]
+* mount -o loop disk.img /mnt — mount disk image
 
-fsck -f /dev/sda1 — filesystem check/repair (unmounted)
+* dd if=/dev/zero of=file.img bs=1M count=100 — create sparse/blank image
 
-resize2fs /dev/sda1 — resize ext filesystem
+* dd if=/dev/sda of=/backup/sda.img bs=4M conv=sync,noerror — disk cloning (careful)
 
-losetup -fP disk.img — setup loop device
+# 14. LOGS & JOURNAL
 
-mount -o loop disk.img /mnt — mount disk image
+* /var/log/ — system logs
 
-dd if=/dev/zero of=file.img bs=1M count=100 — create sparse/blank image
+  * /var/log/syslog or /var/log/messages — general system log
 
-dd if=/dev/sda of=/backup/sda.img bs=4M conv=sync,noerror — disk cloning (careful)
+  * /var/log/auth.log — authentication (Debian)
+  
+  * /var/log/secure — authentication (RHEL)
+  
+  * /var/log/kern.log — kernel messages
 
-14. LOGS & JOURNAL
+* journalctl — systemd journal viewer
 
-/var/log/ — system logs
+ * journalctl -u sshd.service — logs for unit
+ 
+ * journalctl -b — logs from current boot
+ 
+ * journalctl -f — follow
+ 
+ * journalctl --since "2025-11-01" --until "2025-11-10"
 
-/var/log/syslog or /var/log/messages — general system log
+## 15. BOOT & KERNEL
 
-/var/log/auth.log — authentication (Debian)
+* dmesg — kernel ring buffer
 
-/var/log/secure — authentication (RHEL)
+* uname -r — kernel release
 
-/var/log/kern.log — kernel messages
+* grub2-mkconfig -o /boot/grub2/grub.cfg (RHEL/Fedora) or update-grub (Debian)
 
-journalctl — systemd journal viewer
+* grub-install /dev/sda — install grub to disk
 
-journalctl -u sshd.service — logs for unit
+* systemd-analyze blame / systemd-analyze plot > boot.svg
 
-journalctl -b — logs from current boot
+## 16. SECURITY: SUDO, SELINUX, APPARMOR
+```
+sudo command            # run command as root
+sudo -i                 # open root shell
+sudo -u user command    # run as another user
+sudo visudo             # safely edit sudoers file
 
-journalctl -f — follow
+```
 
-journalctl --since "2025-11-01" --until "2025-11-10"
+# SELinux (RHEL/CentOS/Fedora)
+```
+getenforce              # check mode (Enforcing/Permissive)
+setenforce 0            # set permissive mode temporarily
+sestatus                # detailed SELinux status
+semanage port -l        # list allowed ports
+semanage port -a -t http_port_t -p tcp 8081   # allow new port
+restorecon -Rv /var/www # restore security contexts
+audit2why -a            # explain access denials
+audit2allow -a -M mypol # generate allow policy module
 
-15. BOOT & KERNEL
+```
+# AppArmor (Ubuntu)
+```
+aa-status               # show active profiles
+aa-complain <prog>      # disable blocking, log only
+aa-enforce <prog>       # enforce security
+aa-disable <prog>       # disable profile
 
-dmesg — kernel ring buffer
+```
+## 17. Bash Shell Basics & Scripting
+-------------------------------
 
-uname -r — kernel release
+## 18. Networking Advanced Commands
 
-grub2-mkconfig -o /boot/grub2/grub.cfg (RHEL/Fedora) or update-grub (Debian)
+# network inspection ()
+```
+ip a                  # show interfaces
+ip route              # show routing table
+ip neigh              # ARP table
+hostnamectl          # hostname info
 
-grub-install /dev/sda — install grub to disk
+```
+# testing connections
+```
+ping host
+traceroute host
+tracepath host
+```
 
-systemd-analyze blame / systemd-analyze plot > boot.svg
+# Port/Traffic analysis
+```
+ss -tulnp             # show listening ports
+netstat -tulnp        # older tool
+tcpdump -i eth0       # capture packets
+tcpdump -nn port 80   # capture HTTP traffic
 
-16. SECURITY: SUDO, SELINUX, APPARMOR
+```
 
-sudo command — run command as root
 
-sudo -i — login shell as root
+# DNS tools
+```
+dig domain.com
+nslookup domain.com
+host domain.com
+```
+# File transfers
+```
+scp file user@host:/path/
+rsync -avz /src/ /dest/
+sftp user@host
+```
+# Curl / Wget
+```
+curl -I https://site.com          # headers
+curl -O https://site.com/file     # download
+curl -X POST -d "a=1&b=2" URL
+wget -c URL                       # continue download
+wget -r URL                       # recursive download
 
-visudo — edit sudoers safely
+```
+## 19. Troubleshooting & Debugging Tools
+# Process & system inspection
+```
+ps aux
+top
+htop
+free -h
+df -h
+vmstat 1
+iostat -x 1
+mpstat -P ALL 1
+```
 
-SELinux (RHEL/CentOS/Fedor
+# Logs
+```
+dmesg -T
+journalctl -xe
+journalctl -u sshd
+tail -f /var/log/syslog
+```
+# Network debugging
+```
+lsof -i :8080         # who is using port 8080
+ss -lptn              # listening sockets
+```
+# Program debugging
+```
+strace command        # trace syscalls
+strace -p <pid>       # attach to running program
+ltrace command        # trace library calls
+```
+# File monitoring
+```
+watch -n 1 'df -h'
+inotifywait -m /path
+```
+## 20. Advanced Filesystem Commands
+# Disk usage
+```
+du -sh *              # size of files/folders
+lsblk                 # block devices
+blkid                 # filesystem UUIDs
+```
+
+# Mounting
+```
+mount /dev/sda1 /mnt
+umount /mnt
+mount -o loop disk.img /mnt
+```
+
+# Filesystem creation
+```
+mkfs.ext4 /dev/sda1
+mkfs.xfs /dev/xvdf1
+```
+
+# Repair & check
+```
+fsck -f /dev/sda1
+e2fsck -f /dev/sda1
+badblocks -v /dev/sda1
+```
+# Resize filesystem
+```
+resize2fs /dev/sda1        # EXT
+xfs_growfs /mountpoint     # XFS
+```
+# Freeze filesystem
+```
+fsfreeze -f /mount
+fsfreeze -u /mount
+```
+
+
+
+
