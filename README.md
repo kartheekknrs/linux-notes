@@ -21,484 +21,247 @@
 19. Troubleshooting & debugging
 20. Handy combos & best practices
 
-## 1. BASICS & ENVIRONMENT
-
-* pwd — print working directory
-
-* whoami — current user
-
-* id — user and groups
-
-* hostname — show hostname
-
-* uname -a — kernel & machine info
-
-* env — show environment variables
-
-* printenv VAR — print specific env var
-
-* export VAR=value — set environment variable for current shell
-
-* set — list shell variables
-
-* clear — clear terminal
-
-* date — show current date/time
-
-* uptime — how long system has been up, load averages
-
-* cal — calendar
-
-* arch or uname -m — CPU architecture
-
-## 2. FILESYSTEM NAV & FILE OPERATIONS
-
-* ls — list files
-
-  * ls -l  — long listing
-  
-  * ls -la — show hidden files
-  
-  * ls -lh — human-readable sizes
-  
-  * ls --color=auto  — colored output
-
-* cd /path/to/dir — change directory
-
-* mkdir dir — create directory
-
-  * mkdir -p a/b/c — create parents as needed
-
-* rmdir dir — remove empty directory
-
-* cp src dest — copy files
-
-  * cp -r dir1 dir2 — recursive copy
-  
-  * cp -a — preserve attributes (archival)
-
-*  mv src dest — move or rename
-
-* rm file — delete file
-
-  * rm -r dir  — recursive
-  
-  * rm -f  — force
-  
-  * rm -rf  — dangerous: force recursive
-
-* ln -s target linkname — create symbolic link
-
-* stat file — detailed file metadata
-
-* file filename — guesses file type
-
-* touch file — create empty file or update timestamps
-
-## 3. FILE VIEWING & PROCESSING
-
-* cat file — dump file to stdout
-
-* tac file — reverse file
-
-* nl file — number lines
-
-* less file — pager (use q to exit)
-
-  * less +F file — follow mode (like tail -f)
-
-* more file  — older pager
-
-* head -n 10 file — first lines
-
-* tail -n 10 file — last lines
-
-  * tail -f file — follow appended content
-
-* cut -d',' -f1 — cut fields by delimiter
-
-* sort — sort lines
-
-  * sort -n — numeric
-  
-  * sort -r — reverse
-
-* uniq — remove adjacent duplicates
-
-  * sort | uniq -c — count unique lines
-
-* tr 'a-z' 'A-Z' — translate characters
-
-* wc — word/line/byte count
-
-  * wc -l  — count lines
-
-* tee file — write to stdout and file
-
-* split -b 10M bigfile — split into 10MB chunks
-
-* paste file1 file2 — merge columns
-
-## 4. PERMISSIONS & OWNERSHIP
-
-* ls -l — shows permissions (rwx)
-
-* chmod — change permissions
-
-  * symbolic: **chmod u+rwx,g+rx,o-r** file
-  
-  * numeric: **chmod 755 file** (u=rwx (7), g=rx (5), o=rx (5))
-  
-  * special bits: setuid (4___), setgid (2_), sticky bit (_1)
-  
-    * e.g. **chmod 4755 /path/to/binary** (setuid)
-
-* chown user:group file — change owner and group
-
-* chgrp group file — change group only
-
-* umask — default permission mask for new files
-
-  * umask 022 means new files 755/644 style
-
-* getfacl file / setfacl — get/set POSIX ACLs for fine-grained perms
-
-## 5. TEXT EDITORS
-
-* **vi filename** or **vim filename** — modal editor
-
-  * common: i insert, Esc, :w save, :q quit, :wq save+quit, :qa! quit all
- 
-  * visual mode, yank (y), paste (p), delete (d)
-
-* nano file — user-friendly editor (Ctrl+O save, Ctrl+X exit)
-
-* emacs file — powerful editor
-
-## 6. SEARCHING — find / grep / locate
-
-* find /path -name "*.log" — find files by name (case-sensitive)
-
-* find /path -iname "*.Log" — case-insensitive
-
-* find . -type f -mtime -7 — modified within last 7 days
-
-* find . -type f -size +100M — files bigger than 100MB
-
-* find . -name "*.tmp" -exec rm {} \; — execute command on results
-
-* locate filename — fast DB-backed search (update DB with updatedb)
-
-* grep 'pattern' file — search text
-
- * grep -R "TODO" . — recursive search
- 
- * grep -n show line numbers
- 
- * grep -i ignore case
- 
-   * grep -E extended regex
-   
-   * grep -P perl regex (if supported)
-   
-   * zgrep for gzipped files
-  
- * egrep (equiv. grep -E)
-
-## 7. COMPRESSION & ARCHIVING
-
-* tar -cvf archive.tar dir/ — create tar
-
-* tar -xvf archive.tar — extract tar
-
-* tar -czvf archive.tar.gz dir/ — create gzip tar
-
-* tar -xzvf archive.tar.gz — extract gzipped tar
-
-* tar -cjvf archive.tar.bz2 dir/ — bzip2
-
-* tar -xJvf archive.tar.xz — xz
-
-* gzip file -> file.gz; gunzip to extract
-
-* zip -r archive.zip dir/ and unzip archive.zip
-
-* 7z a archive.7z files if p7zip installed
-
-## 8. PACKAGE MANAGEMENT
-
-# Debian/Ubuntu (apt / dpkg)
-
-* apt update — refresh package lists
-
-* apt upgrade — upgrade installed packages
-
-* apt install pkg — install package
-
-* apt remove pkg — remove
-
-* apt purge pkg — remove config files too
-
-* dpkg -i package.deb — install .deb file
-
-* dpkg -l | grep pkg — check package
-
-# RHEL/CentOS/Fedora (yum/dnf/rpm)
-
-* yum install pkg or dnf install pkg
-
-* yum update or dnf upgrade
-
-* rpm -ivh package.rpm — install rpm
-
-* rpm -qa | grep pkg — list installed
-
-* Arch (pacman)
-
-* pacman -Syu — update system
-
-* pacman -S pkg — install
-
-Other
-
-* snap install package  —(snap)
-
-* flatpak  —commands
-
-## 9. USERS & GROUPS
-
-* useradd username — create user (use -m for home)
-
-* adduser username — friendlier wrapper (Debian)
-
-* userdel username — delete user
-
-* usermod -aG group user — add user to group
-
-* groups username — show groups
-
-* passwd username — set/change password
-
-* chage -l username — view password expiry
-
-* sudo visudo — safely edit /etc/sudoers
-
-* su - username — switch user (login shell)
-
-## 10. PROCESSES & JOB CONTROL
-
-* ps aux — show all processes
-
-* ps -ef — alternate format
-
-* top — dynamic process viewer
-
-* htop — enhanced top (interactive)
-
-* pgrep pattern — find PIDs
-
-* pidof program — PID(s) of program
-
-* kill PID — send SIGTERM (15)
-
-* kill -9 PID — SIGKILL (9)
-
-* kill -SIGINT PID — named signal
-
-* pkill name — kill by name
-
-* killall name — kill all processes by name
-
-* nice -n 10 command — run with lower priority
-
-* renice -n 5 -p PID — change priority of running process
-
-* Job control in bash:
-
-   * **command &** run in background
-   
-   * **jobs** list jobs
-   
-   * **fg %1** bring job 1 foreground
-   
-   * **bg %1** resume job in background
- 
-## 11. SYSTEMD & SERVICES
-
-* systemctl status — overall status
-
-* systemctl status <service> — service status
-
-* systemctl start <service>
-
-* systemctl stop <service>
-
-* systemctl restart <service>
-
-* systemctl reload <service> — reload config without restart
-
-* systemctl enable <service> — start at boot
-
-* systemctl disable <service>
-
-* systemctl is-enabled <service>
-
-* systemctl daemon-reload — after modifying unit files
-
-* systemctl list-units --type=service — list services
-
-* systemctl --failed — show failed units
-
-* systemd-analyze blame — show boot time contributions
-
-* Timers
-
-   * systemctl list-timers — view systemd timers
-
-## 12. NETWORKING
-
-* ip addr / ip a — show interfaces & addresses
-
-* ip link — show network links
-
-* ip route — routing table
-
-* ip neigh — ARP table
-
-* ss -tuln — sockets listening (replacement for netstat)
-
-* netstat -tulpn — network connections (if installed)
-
-* ifconfig — older tool (deprecated)
-
-* nmcli — NetworkManager CLI
-
-   * nmcli device status
-  
-   * nmcli connection show
-
-* ping host — test connectivity
-
-* traceroute host — path to host
-
-* tracepath host — user-mode traceroute
-
-* dig domain — DNS lookup (from bind-utils)
-
-* nslookup domain — DNS lookup (older)
-
-* arp -a — ARP entries
-
-* ethtool eth0 — show NIC settings
-
-* ethtool -s eth0 speed 100 duplex full — change NIC (may require down)
-
-* route — older route tool
-
-# Firewall
-
-* iptables -L -n -v — list iptables rules
-
-* iptables -A INPUT -p tcp --dport 22 -j ACCEPT — add rule
-
-* iptables-save / iptables-restore
-
-* nft / nftables — modern replacement
-
-* firewall-cmd --zone=public --add-port=8080/tcp --permanent (firewalld)
-
-* ufw status / ufw allow 22 (Ubuntu uncomplicated firewall)
-
-# SSH
-
-* ssh user@host — connect
-
-* ssh -p 2222 user@host — custom port
-
-* ssh -i /path/key.pem user@host — use key
-
-* ssh-keygen -t rsa -b 4096 -C "email@domain" — generate key
-
-* ssh-copy-id -i ~/.ssh/id_rsa.pub user@host — copy key to remote
-
-* scp file user@host:/path/ — secure copy
-
-* sftp user@host — interactive file transfer
-
-* rsync -avz source/ user@host:/dest/ — fast sync (recommended over scp for many files)
-
-## 13. DISK, PARTITIONS & FILESYSTEMS
-
-* df -h — disk free space (human)
-
-* du -sh * — disk usage of dirs/files
-
-* lsblk — list block devices
-
-* fdisk -l — partition table
-
-* parted /dev/sda — partition editor (scriptable)
-
-* mkfs.ext4 /dev/sda1 — make ext4 filesystem
-
-* mkfs.xfs /dev/sdb1 — make XFS filesystem
-
-* mount /dev/sda1 /mnt — mount
-
-* umount /mnt — unmount (note: umount, not unmount)
-
-* /etc/fstab — persistent mounts at boot
-
-* blkid — show filesystem UUIDs
-
-* tune2fs -L label /dev/sda1 — label ext[2/3/4]
-
-* fsck -f /dev/sda1 — filesystem check/repair (unmounted)
-
-* resize2fs /dev/sda1 — resize ext filesystem
-
-* losetup -fP disk.img — setup loop device
-
-* mount -o loop disk.img /mnt — mount disk image
-
-* dd if=/dev/zero of=file.img bs=1M count=100 — create sparse/blank image
-
-* dd if=/dev/sda of=/backup/sda.img bs=4M conv=sync,noerror — disk cloning (careful)
-
-# 14. LOGS & JOURNAL
-
-* /var/log/ — system logs
-
-    * /var/log/syslog or /var/log/messages — general system log
-  
-    * /var/log/auth.log — authentication (Debian)
-    
-    * /var/log/secure — authentication (RHEL)
-    
-    * /var/log/kern.log — kernel messages
-
-* journalctl — systemd journal viewer
-
-   * journalctl -u sshd.service — logs for unit
-   
-   * journalctl -b — logs from current boot
-   
-   * journalctl -f — follow
-   
-   * journalctl --since "2025-11-01" --until "2025-11-10"
-
-## 15. BOOT & KERNEL
-
-* dmesg — kernel ring buffer
-
-* uname -r — kernel release
-
-* grub2-mkconfig -o /boot/grub2/grub.cfg (RHEL/Fedora) or update-grub (Debian)
-
-* grub-install /dev/sda — install grub to disk
-
-* systemd-analyze blame / systemd-analyze plot > boot.svg
-
+## 1️⃣ Basics & Environment
+
+Linux basics help you understand the system identity, time, environment variables, and general info.
+```
+pwd                      # Shows the full path of the current working directory
+whoami                   # Prints the logged-in username
+hostname                 # System hostname
+uname -a                 # Kernel name, version, architecture
+date                     # Display system date and time
+uptime                   # Shows uptime + load average (system load)
+env                      # List all environment variables
+export VAR=value         # Set an environment variable for current session
+printenv VAR             # Display a specific environment variable
+clear                    # Clear terminal screen
+```
+## 2️⃣ Filesystem Navigation & File Operations
+
+Move around directories, create, modify and delete files/folders.
+
+```
+ls                       # List directory contents
+ls -l                    # Long listing (permissions, owner, size)
+ls -la                   # Include hidden files (starting with .)
+cd /path                 # Change directory to the given path
+cd ..                    # Go back one directory
+mkdir folder             # Create a folder
+mkdir -p a/b/c           # Create nested directories
+touch file               # Create an empty file or update timestamp
+cp src dest              # Copy file
+cp -r dir1 dir2          # Copy directory recursively
+mv old new               # Move or rename file/directory
+rm file                  # Delete file
+rm -rf folder            # Delete directory recursively (force)
+ln -s target linkname    # Create a symbolic link
+file filename            # Detect file type (binary/text/script)
+```
+## 3️⃣ File Viewing & Processing
+
+Used for reading, paging, slicing, combining or manipulating text.
+```
+cat file                 # Print file contents
+tac file                 # Print file in reverse order
+less file                # View file with scroll option
+head -n 20 file          # Show first 20 lines
+tail -n 20 file          # Show last 20 lines
+tail -f file             # Follow file changes (logs)
+cut -d',' -f2 file       # Cut CSV file and show 2nd column
+sort file                # Sort lines alphabetically
+sort -n file             # Numeric sort
+uniq file                # Remove duplicate lines
+uniq -c file             # Count repeated lines
+tr a-z A-Z < file        # Convert lowercase → uppercase
+wc -l file               # Count number of lines
+paste file1 file2        # Merge lines side-by-side
+tee output.txt           # Save AND display output
+```
+## 4️⃣ Permissions & Ownership
+
+Linux permissions manage who can read/write/execute a file.
+
+# Permission basics:
+```
+r = read
+w = write
+x = execute
+```
+```
+ls -l                     # Show permissions (rwxr-xr-x)
+chmod 755 file            # Owner: rwx, group/others: rx
+chmod u+rwx file          # Add permissions symbolically
+chmod g-w file            # Remove write from group
+chown user:group file     # Change file owner & group
+chgrp group file          # Change group only
+umask 022                 # Default file creation mask (removes write for group/others)
+getfacl                   # Show ACL permissions
+setfacl -m u:user:rw file # Add custom ACL for a user
+```
+## 5️⃣ Text Editing & Editors
+```
+Nano (easy editor)
+nano file                # Open file
+# Ctrl+O save, Ctrl+X exit, Ctrl+K cut, Ctrl+U paste
+```
+# Vim / Vi (powerful editor)
+```
+vim file                 # Open file in Vim
+# i → insert mode
+# Esc → exit insert mode
+# :w → save
+# :q → quit
+# :wq → save & quit
+# yy → copy line
+# dd → delete line
+# p  → paste
+```
+## 6️⃣ Searching (find / grep / locate)
+```
+grep → search inside files
+grep "text" file          # Search for text
+grep -i "text" file       # Case-insensitive
+grep -n "text" file       # Show line numbers
+grep -R "text" .          # Search recursively in directory
+```
+
+# find → search for files
+```
+find /path -name "*.log"               # Find log files
+find . -type f -size +50M              # Files larger than 50MB
+find . -mtime -2                       # Files modified in last 2 days
+find . -name "*.tmp" -exec rm {} \;    # Delete matching files
+```
+# locate → fast file search
+```
+locate filename                        # Search from DB (very fast)
+sudo updatedb                          # Update file database
+```
+## 7️⃣ Compression & Archiving
+```
+tar -cvf archive.tar dir/              # Create tar
+tar -xvf archive.tar                   # Extract tar
+tar -czvf archive.tar.gz dir/          # Create gzip tar
+tar -xzvf archive.tar.gz               # Extract gzip tar
+zip -r archive.zip dir/                # Zip folder
+unzip archive.zip                      # Extract zip
+gzip file                              # Compress file
+gunzip file.gz                         # Extract gzip
+```
+## 8️⃣ Package Management
+
+# APT (Ubuntu/Debian)
+```sudo apt update
+sudo apt upgrade
+sudo apt install package
+sudo apt remove package
+dpkg -i file.deb
+dpkg -l | grep name
+```
+# YUM / DNF (CentOS/RHEL/Fedora)
+```
+sudo yum install package
+sudo dnf install package
+sudo yum update
+rpm -ivh file.rpm
+rpm -qa | grep name
+```
+# Pacman (Arch Linux)
+```
+sudo pacman -S package
+sudo pacman -Syu        # full update
+```
+# 9️⃣ Users & Groups
+```
+useradd username                 # add user
+adduser username                 # friendlier version (Debian)
+passwd username                  # set password
+userdel username                 # delete user
+usermod -aG group user           # add user to group
+groups username                  # list groups
+sudo visudo                      # edit sudo permissions safely
+su - username                    # switch user
+```
+# 🔟 Processes & Job Control
+```
+ps aux                           # list all processes
+ps -ef                           # alternative view
+top                              # CPU/memory usage
+htop                             # improved top (if installed)
+kill PID                         # stop process
+kill -9 PID                      # force kill
+pkill processname                # kill by name
+
+command &                        # run in background
+jobs                             # list background jobs
+fg %1                            # bring job to foreground
+bg %1                            # resume job in background
+```
+## 1️⃣1️⃣ Systemctl & Services
+```
+systemctl status service         # service status
+systemctl start service          # start
+systemctl stop service           # stop
+systemctl restart service        # restart
+systemctl enable service         # start at boot
+systemctl disable service        # disable at boot
+systemctl daemon-reload          # reload systemd configs
+systemctl --failed               # list failed units
+```
+## 1️⃣2️⃣ Networking
+```
+ip a                             # show active interfaces
+ip route                         # routing table
+ip neigh                         # ARP table
+ss -tulnp                        # listening ports (modern)
+netstat -tulnp                   # old alternative
+ping host                        # test connectivity
+traceroute host                  # show path
+dig domain                       # DNS lookup
+nslookup domain                  # alternative
+```
+# SSH, SCP, Rsync
+```
+ssh user@host                    # remote login
+ssh -i key.pem user@host         # login with key
+scp file user@host:/path/        # secure copy
+rsync -avz src/ dest/            # efficient file sync
+```
+
+## 1️⃣3️⃣ Disk, Partitions & Filesystems
+```df -h                            # disk usage
+du -sh *                         # folder sizes
+lsblk                            # list block devices
+fdisk -l                         # partition info
+mkfs.ext4 /dev/sda1              # create ext4 FS
+mount /dev/sda1 /mnt             # mount filesystem
+umount /mnt                      # unmount
+blkid                            # show UUIDs
+fsck -f /dev/sda1                # filesystem check
+resize2fs /dev/sda1              # resize ext FS
+xfs_growfs /mountpoint           # resize XFS
+```
+## 1️⃣4️⃣ Logs & Journal
+```
+ournalctl                      # system logs via journal
+journalctl -u sshd              # service-specific logs
+journalctl -f                   # follow logs (like tail -f)
+journalctl --since "1 hour ago" # time-filtered logs
+tail -f /var/log/syslog         # Debian/Ubuntu logs
+tail -f /var/log/messages       # RHEL/CentOS logs
+dmesg -T                        # kernel logs in readable format
+```
+## 1️⃣5️⃣ Boot & Kernel
+```
+uname -r                        # kernel version
+dmesg                           # kernel ring buffer
+systemd-analyze                 # boot-up performance
+systemd-analyze blame           # which services slowed boot
+update-grub (Debian/Ubuntu)     # update bootloader config
+grub2-mkconfig -o /boot/grub2/grub.cfg   # RHEL/Fedora
+reboot                          # restart system
+poweroff                        # shutdown system
+```
 ## 16. SECURITY: SUDO, SELINUX, APPARMOR
 ```
 sudo command            # run command as root
